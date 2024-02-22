@@ -1,59 +1,25 @@
 import express from 'express';
-import type { Request, Response } from 'express';
-import {log, logMiddleware} from "./src/utils/logger"
+import {logMiddleware} from "./src/utils/logger"
+import {router as companiesRouter} from "./src/controllers/companies"
+import {router as jobsRouter} from "./src/controllers/jobs"
+import type { Request,Response } from 'express';
 
 
 const app = express();
-
 const port = process.env.PORT
-const pappers_api_key = process.env.PAPPERS_API_KEY
-const pappers_api_url = process.env.PAPPERS_API_URL || ".ENV MISSING"
 
+/**
+ * Auto logging of requests
+ */
 app.use(logMiddleware)
+app.use(companiesRouter)
+app.use(jobsRouter)
 
-app.get('/company', async (req: Request, res: Response) => {
-    // get SIREN param
-    const { siren } = req.query
-    if(siren === null || siren === "" || siren == undefined ){
-        res.send("No SIREN number provided.").status(400)
-        return
-    } 
 
-    const url = `${pappers_api_url}entreprise/cartographie?api_token=${pappers_api_key}&siren=${siren}`
-    log(url, true)
+
+app.get("/",(req:Request, res:Response)=>{
     
-
-
-
-    const result = await fetch(url)
-    const data = await result.json()
-    const companies = []
-
-    // TODO get all the companies (the one fetched and the ones link to each employee)
-    // fetch them and store them
-    // then send
-
-    // and return a jobId
-    res.send(data)
-})
-
-
-/**
- * @returns all the jobs that are in progress.
- */
-app.get('/jobs', (req:Request, res:Response)=>{
-    // Idée : récupérer tout les job enregistrés dans webhook.site
-
-    res.send("TODO : return jobs in progress")
-})
-
-/**
- * 
- * @returns the job with the id sent as a param.
- */
-app.get('/jobs/:id',(req:Request, res:Response)=>{
-    
-    res.send("Information about job number : " + req.params.id )
+    res.send("Hello World!")
 })
 
 
