@@ -22,13 +22,18 @@ app.get('/company', async (req: Request, res: Response) => {
     const url = `${pappers_api_url}entreprise/cartographie?api_token=${pappers_api_key}&siren=${siren}`
     log(url, true)
     
-    // TODO fetch data from Pappers using the SIREN
-    // and return a jobId
+
+
 
     const result = await fetch(url)
     const data = await result.json()
+    const companies = []
 
+    // TODO get all the companies (the one fetched and the ones link to each employee)
+    // fetch them and store them
+    // then send
 
+    // and return a jobId
     res.send(data)
 })
 
