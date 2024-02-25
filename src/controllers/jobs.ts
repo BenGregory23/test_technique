@@ -9,7 +9,7 @@ const pappers_api_url = process.env.PAPPERS_API_URL || ".ENV MISSING"
 
 
 /**
- * @returns all the jobs that are in progress.
+ * @returns the jobs that are in progress.
  */
 router.get('/jobs', (req:Request, res:Response)=>{
     // Idée : récupérer tout les job enregistrés dans webhook.site
