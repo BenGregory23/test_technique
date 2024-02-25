@@ -21,9 +21,11 @@ router.get('/company', async (req: Request, res: Response) => {
         res.status(404).send("Not Found")
         return
     } 
+    // Get all companies linked to members
     const companies : Set<object> = await getLinkedCompanies(company)
 
-    // TODO : send companies to the Webhook.site asynchronously
+    // Sending companies to the Webhook.site asynchronously
+    // and registering a job as in progress
     sendToWebhook(companies,jobId)
     
     // Returning a job ID
