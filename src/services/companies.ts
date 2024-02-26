@@ -6,7 +6,7 @@ const pappers_api_url = process.env.PAPPERS_API_URL || ".ENV MISSING"
  * @param company Object representing a Pappers company
  * @returns array of companies
  */
-const getLinkedCompanies = async (company: object) => {
+const getCompanies = async (company: object) => {
     // Using a set prevents companies appearing multiple times
     const companies = new Set<object>()
     const possibleCompanies: Object[] = company.entreprises;
@@ -21,6 +21,13 @@ const getLinkedCompanies = async (company: object) => {
             }
         })
     })
+
+    // If no company is linked to members, we just return the initial company
+    if(companySIRENs.length === 0){
+        companies.add(company)
+        return companies
+    } 
+
 
     /**
      * For each SIREN stored in companySIRENs array
@@ -41,17 +48,21 @@ const getLinkedCompanies = async (company: object) => {
  * @returns a Pappers company object
  */
 const fetchCompany = async (SIREN: number | string | any) => {
-     
+    // To avoid a 404 because of whitespaces not removed by the user
+    if(typeof SIREN === "string"){ 
+        SIREN = SIREN.replace(/\s/g, "")
+    }
     const url = `${pappers_api_url}entreprise/cartographie?api_token=${pappers_api_key}&siren=${SIREN}`
     const result = await fetch(url)
-   
+    console.log(result)
     if(result.status !== 200) return null
 
     const company : object = await result.json()
+    console.log(company)
     return company
 }
 
 export {
-    getLinkedCompanies,
+    getCompanies,
     fetchCompany
 }
