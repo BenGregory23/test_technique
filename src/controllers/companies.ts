@@ -1,13 +1,18 @@
 import express from "express";
 import type { Request, Response } from "express";
 import { log } from "../utils/logger";
-import { fetchCompany, getLinkedCompanies } from "../services/companies";
+import { fetchCompany, getCompanies } from "../services/companies";
 import generateJobID from "../utils/generateJobID";
 import { sendToWebhook } from "../services/jobs";
 
 const router = express.Router()
 
-
+/**
+ *  GET /company
+ *  @param siren : SIREN number of a company
+ *  @returns a job ID and the SIREN number
+ *  @description Fetches a company from the Pappers API using the SIREN number
+ */
 router.get('/company', async (req: Request, res: Response) => {
     const { siren } = req.query
     const jobId = generateJobID()
@@ -22,14 +27,18 @@ router.get('/company', async (req: Request, res: Response) => {
         return
     } 
     // Get all companies linked to members
-    const companies : Set<object> = await getLinkedCompanies(company)
+    const companies : Set<object> = await getCompanies(company)
 
     // Sending companies to the Webhook.site asynchronously
     // and registering a job as in progress
     sendToWebhook(companies,jobId)
     
-    // Returning a job ID
-    res.send(jobId)
+    // Returning a job ID and the SIREN number
+    const returned_data = {
+        jobId: jobId,
+        SIREN: siren,
+    }
+    res.send(returned_data)
 })
 
 export { router } 

@@ -25,6 +25,12 @@ class JobManager {
 // Create a singleton instance
 const jobManagerInstance = new JobManager();
 
+
+/**
+ * Sends the companies to a Webhook
+ * @param companies  Set of companies
+ * @param jobId  Job ID
+ */
 const sendToWebhook = async (companies: Set<object>, jobId: string) => {
     const companiesArray = Array.from(companies)
     const url = process.env.WEBHOOK_URL || null
@@ -44,11 +50,11 @@ const sendToWebhook = async (companies: Set<object>, jobId: string) => {
             body: JSON.stringify(companiesArray),
         })
             .then((res) => {
-                // TODO: REMOVE DELAY
+                // Delay is added to simulate a long request time
                 setTimeout(() => {
                     // request is finished remove job 
                     jobManagerInstance.removeJob(jobId)
-                },10000)
+                }, 10000)
             })
     }
     catch (err: any) {
