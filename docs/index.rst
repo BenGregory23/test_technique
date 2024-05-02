@@ -29,3 +29,36 @@ Indices and tables
 
 This is a test for Read the Docs. I need to add some more text here to see how it looks like in the final documentation. 
 
+.. generate some random text and data in markdown format (image or table)
+
+## Random text
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit
+
+## Random data
+
+| Name | Age
+| ---- | ---
+| John | 25
+| Jane | 30
+
+## Random image
+
+![Random image](https://via.placeholder.com/150)
+
+## Random code
+
+```python
+def hello_world():
+    print("Hello, World!")
+```
+
+
+## Random list
+
+- Item 1
+- Item 2
+- Item 3
+
+
+
