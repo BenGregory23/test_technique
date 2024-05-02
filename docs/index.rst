@@ -22,8 +22,10 @@ Indices and tables
 
 
 
-# Hello World!
+# This is a test for Read the Docs
 
 
+## I need some more text here
 
-**bold**
+This is a test for Read the Docs. I need to add some more text here to see how it looks like in the final documentation. 
+
